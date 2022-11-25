@@ -7,6 +7,7 @@ provider "aws" {
   instance_tenancy = "default" 
   tags = {
     Name = "surya"
+    enviroment = "production"
   }
 }
 
