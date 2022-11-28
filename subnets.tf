@@ -1,43 +1,22 @@
-resource "aws_subnet" "subnet1-public" {
+resource "aws_subnet" "public-subnets" {
+    count = 3 
     vpc_id = "${aws_vpc.nallabirudu95.id}"
-    cidr_block = "${var.public_subnet1_cidr}"
-    availability_zone = "us-east-1a"
-
+    availability_zone = "${element(var.public_subnets, count.index)}"
+    cidr_block = "${element(var.public_cidrs, count.index)}"
     tags = {
-        Name = "${var.public_subnet1_name}"
+        Name = "public-subnet-${count.index+1}"
     }
 	
-    depends_on = [
-    aws_flow_log.vpcflowlogs,
-  ]
-}
+  }
 
 
-resource "aws_subnet" "subnet2-public" {
+resource "aws_subnet" "private-subnets" {
+    count = 3
     vpc_id = "${aws_vpc.nallabirudu95.id}"
-    cidr_block = "${var.public_subnet2_cidr}"
-    availability_zone = "us-east-1b"
-
+    availability_zone = "${element(var.private_subnets, count.index)}"
+    cidr_block = "${element(var.private_cidrs, count.index)}"
     tags = {
-        Name = "${var.public_subnet2_name}"
+        Name = "private-subnet-${count.index+1}"
     }
-	depends_on = [
-    aws_flow_log.vpcflowlogs,
-    aws_subnet.subnet1-public,
-    aws_internet_gateway.pawan,
-  ]
-}
-
-resource "aws_subnet" "subnet3-public" {
-    vpc_id = "${aws_vpc.nallabirudu95.id}"
-    cidr_block = "${var.public_subnet3_cidr}"
-    availability_zone = "us-east-1c"
-
-    tags = {
-        Name = "${var.public_subnet3_name}"
-    }
-	depends_on = [
-    aws_flow_log.vpcflowlogs,
-    aws_subnet.subnet2-public,
-  ]
-}
+	
+  }

@@ -16,8 +16,4 @@ resource "aws_internet_gateway" "pawan" {
 	tags = {
         Name = "narendra"
     }
-
-depends_on = [
-    aws_s3_bucket.statebucket,
-  ]
 }
