@@ -12,4 +12,3 @@ resource "aws_instance" "web-1" {
    
   }
 }
-
