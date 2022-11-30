@@ -1,5 +1,5 @@
 resource "aws_subnet" "public-subnets" {
-    count = 3 
+    count =  "${length(var.public_cidrs)}"
     vpc_id = "${aws_vpc.nallabirudu95.id}"
     availability_zone = "${element(var.public_subnets, count.index)}"
     cidr_block = "${element(var.public_cidrs, count.index)}"
@@ -11,7 +11,7 @@ resource "aws_subnet" "public-subnets" {
 
 
 resource "aws_subnet" "private-subnets" {
-    count = 3
+    count = "${length(var.private_cidrs)}"
     vpc_id = "${aws_vpc.nallabirudu95.id}"
     availability_zone = "${element(var.private_subnets, count.index)}"
     cidr_block = "${element(var.private_cidrs, count.index)}"

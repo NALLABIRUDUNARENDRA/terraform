@@ -24,13 +24,13 @@ resource "aws_route_table" "private-routing-table" {
 
 
 resource "aws_route_table_association" "terraform-public" {
-    count = 3
+    count = "${length(var.public_cidrs)}"
   subnet_id      = "${aws_subnet.public-subnets[count.index].id}"
   route_table_id = "${aws_route_table.public-routing-table.id}"
 }
 
 resource "aws_route_table_association" "terraform-private" {
-    count = 3
+    count = "${length(var.private_cidrs)}"
   subnet_id      = "${aws_subnet.private-subnets[count.index].id}"
   route_table_id = "${aws_route_table.private-routing-table.id}"
 }
