@@ -1,5 +1,5 @@
 resource "aws_instance" "web-1" {
-  count = "${var.env == "Prod" ? 3:1}"
+  count = "${var.env == "Prod" ? 1:1}"
   ami    =  "${lookup(var.amis,var.region)}"
   availability_zone ="${element(var.public_subnets, count.index)}"
   instance_type = "t2.nano"
@@ -13,11 +13,16 @@ resource "aws_instance" "web-1" {
    
   }
   user_data = <<-EOF
-		#!/bin/bash
-        sudo apt-get update
+	#!/bin/bash
+    sudo apt-get update
 		sudo apt-get install -y nginx
 		sudo systemctl start nginx
 		sudo systemctl enable nginx
 		echo "HelloWorld-${count.index+1}" | sudo tee /var/www/html/index.nginx-debian.html
 	EOF
+
+  
 }
+
+
+
